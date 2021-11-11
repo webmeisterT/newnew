@@ -7,5 +7,9 @@
     "start": "nodemon src/app.js"
   },
   "author": "kauna",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "sequelize": "^6.9.0",
+    "sqlite3": "^5.0.2"
+  }
 }
