@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const { sequelize } = require('/models');
+const { sequelize, User } = require('./models');
+const config = require('./config/config');
 
 
 const app = express();
@@ -14,15 +15,21 @@ app.get('/api/v1', (req, res)=>{
     res.json({message: "hello there"});
 });
 
-app.post('/api/v1', (req, res)=>{
-    res.json({message: "hello there "+req.body.email});
+app.post('/api/v1', async (req, res)=>{
+    try {
+        const user = await User.create(req.body);
+        return res.json({data:user});
+    } catch (error) {
+        return res.json({msg: error.errors[0].message});        
+    }
+
+    // res.json({message: "hello there "+req.body.email});
 });
 
 
-const port = process.env.PORT || 8081;
 
 sequelize.sync()
 .then(()=>{
-    app.listen(port, ()=>console.log(`Port listening on ${port}`));
+    app.listen(config.port, ()=>console.log(`Port listening on ${config.port}`));
 
 });
