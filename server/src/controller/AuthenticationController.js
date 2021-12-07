@@ -88,6 +88,19 @@ module.exports.getSingleSong = async (req, res)=>{
     }
 };
 
+module.exports.updateSingleSong = async (req, res)=>{
+    try {
+        const song = await Songs.update(req.body, {
+            where: { id: req.params.songId }
+        });
+        if (song) {
+            res.json({updatedSong: req.body});
+        }
+    } catch (error) {
+        res.json({error: 'error in updating'});       
+    }
+};
+
 module.exports.postAllSongs = async (req, res)=>{
     try {
         const song = await Songs.create(req.body);
